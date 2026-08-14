@@ -1,0 +1,151 @@
+[gd_scene format=3 uid="uid://bi6i6mhosu3m5"]
+
+[ext_resource type="Script" uid="uid://comivuhi527m6" path="res://mario.gd" id="1_w74su"]
+[ext_resource type="Texture2D" uid="uid://djufj8psj7kds" path="res://textures/player/mario tileset.png" id="2_wrvex"]
+
+[sub_resource type="Animation" id="Animation_wrvex"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame_coords")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_cdawk"]
+resource_name = "dead"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2i(2, 1), Vector2i(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_4ckko"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_752v2"]
+resource_name = "jump"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="Animation" id="Animation_4gsdp"]
+resource_name = "run"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 2]
+}
+
+[sub_resource type="Animation" id="Animation_76esm"]
+resource_name = "slide"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4gsdp"]
+_data = {
+&"RESET": SubResource("Animation_wrvex"),
+&"dead": SubResource("Animation_cdawk"),
+&"idle": SubResource("Animation_4ckko"),
+&"jump": SubResource("Animation_752v2"),
+&"run": SubResource("Animation_4gsdp"),
+&"slide": SubResource("Animation_76esm")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
+size = Vector2(12, 16)
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1144907134]
+collision_layer = 2
+collision_mask = 29
+script = ExtResource("1_w74su")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=867819619]
+libraries/ = SubResource("AnimationLibrary_4gsdp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=9257035]
+shape = SubResource("RectangleShape2D_g4v7s")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=447199403]
+position = Vector2(0, -2)
+texture = ExtResource("2_wrvex")
+hframes = 4
+vframes = 2
+
+[node name="block_detector" type="Node2D" parent="." unique_id=483520082]
+
+[node name="ray_left" type="RayCast2D" parent="block_detector" unique_id=422357713]
+position = Vector2(-3, -7)
+target_position = Vector2(0, -2)
+
+[node name="ray_center" type="RayCast2D" parent="block_detector" unique_id=1526492884]
+position = Vector2(0, -7)
+target_position = Vector2(0, -2)
+
+[node name="ray_right" type="RayCast2D" parent="block_detector" unique_id=221768928]
+position = Vector2(3, -7)
+target_position = Vector2(0, -2)
