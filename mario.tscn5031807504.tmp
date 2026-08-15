@@ -4,7 +4,6 @@
 [ext_resource type="AudioStream" uid="uid://ivfafferxsk2" path="res://sounds/mario_died.wav" id="2_4ckko"]
 [ext_resource type="Texture2D" uid="uid://djufj8psj7kds" path="res://textures/player/mario tileset.png" id="2_wrvex"]
 [ext_resource type="AudioStream" uid="uid://d0jhn4vfi0fi3" path="res://sounds/jump-small.wav" id="3_4gsdp"]
-[ext_resource type="AudioStream" uid="uid://cj4fu4f1xrg48" path="res://sounds/smb_pause.wav" id="5_752v2"]
 
 [sub_resource type="Animation" id="Animation_cdawk"]
 resource_name = "dead"
@@ -51,7 +50,7 @@ tracks/1/keys = {
 tracks/2/type = "audio"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("DeathSound")
+tracks/2/path = NodePath("AudioStreamPlayer")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -139,7 +138,6 @@ _data = {
 size = Vector2(12, 16)
 
 [node name="Mario_player" type="CharacterBody2D" unique_id=1144907134 groups=["player"]]
-process_mode = 3
 z_index = 10
 collision_layer = 2
 collision_mask = 25
@@ -171,10 +169,7 @@ target_position = Vector2(0, -2)
 position = Vector2(3, -7)
 target_position = Vector2(0, -2)
 
-[node name="DeathSound" type="AudioStreamPlayer" parent="." unique_id=1901965850]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1901965850]
 
 [node name="JumpSound" type="AudioStreamPlayer" parent="." unique_id=1618629751]
 stream = ExtResource("3_4gsdp")
-
-[node name="Pause" type="AudioStreamPlayer" parent="." unique_id=900883094]
-stream = ExtResource("5_752v2")

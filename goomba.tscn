@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cnpj2sj3plx3m" path="res://textures/enimies/goomba.png" id="1_1ng5m"]
 [ext_resource type="Script" uid="uid://bad73ci48xs7w" path="res://goomba.gd" id="1_jke6y"]
+[ext_resource type="AudioStream" uid="uid://cyovo4m0xyq0i" path="res://sounds/kick.wav" id="3_lwfim"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
 size = Vector2(16, 16)
@@ -23,7 +24,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_lwfim"]
 resource_name = "dead"
-length = 2.0
+length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -36,6 +37,21 @@ tracks/0/keys = {
 "update": 1,
 "values": [2]
 }
+tracks/1/type = "audio"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../AudioStreamPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_lwfim")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/1/use_blend = true
 
 [sub_resource type="Animation" id="Animation_yj1s3"]
 resource_name = "walk"
@@ -61,12 +77,9 @@ _data = {
 &"walk": SubResource("Animation_yj1s3")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yf5fn"]
-size = Vector2(16, 16)
-
 [node name="goomba" type="CharacterBody2D" unique_id=447780961]
 collision_layer = 4
-collision_mask = 7
+collision_mask = 21
 script = ExtResource("1_jke6y")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=724858303]
@@ -79,9 +92,4 @@ hframes = 3
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D" unique_id=1762361855]
 libraries/ = SubResource("AnimationLibrary_508bv")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=263775536]
-
-[node name="DamageArea" type="CollisionShape2D" parent="Area2D" unique_id=65693592]
-shape = SubResource("RectangleShape2D_yf5fn")
-
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=417789941]

@@ -21,8 +21,22 @@ var player_state = "small"
 @onready var ray_center = $block_detector/ray_center
 @onready var ray_right = $block_detector/ray_right
 @onready var jump_sound = $JumpSound
+@onready var pause_sound = $Pause
 
 func _physics_process(delta: float) -> void:
+	
+	if Input.is_action_just_pressed("restart"):
+		get_tree().reload_current_scene()
+		return
+		
+	if Input.is_action_just_pressed("pause"):
+		pause_sound.play()
+		get_tree().paused = not get_tree().paused # Переключаем паузу (вкл/выкл)
+		return
+	
+	if get_tree().paused:
+		return
+		
 	if player_state == "dead":
 		return
 	
@@ -39,7 +53,7 @@ func _physics_process(delta: float) -> void:
 		if not is_falling:
 			if is_on_ceiling():
 				velocity.y = 0
-			if not is_on_ceiling() and jump_timer > 0 and Input.is_action_pressed("ui_accept") and velocity.y < 0:
+			if not is_on_ceiling() and jump_timer > 0 and Input.is_action_pressed("jump") and velocity.y < 0:
 				jump_timer -= 1
 			else:
 				jump_timer = start_jump_timer
@@ -49,7 +63,7 @@ func _physics_process(delta: float) -> void:
 			if velocity.y > FALL_VELOCITY:
 				velocity.y = FALL_VELOCITY
 
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 		jump_sound.play()
 
@@ -76,7 +90,7 @@ func death_sequence():
 	anim_player.play("dead")
 	await anim_player.animation_finished
 	
-	get_tree().quit()
+	get_tree().reload_current_scene() 
 	
 	
 func update_animation(dir):
