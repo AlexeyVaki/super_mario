@@ -3,6 +3,7 @@ extends Node2D
 class_name LevelBase
 
 @onready var phys_layer = $TileMaps/ContactLayer
+@onready var bg_music = $BackgroundMusic
 var block_manager = BlockReact.new()
 const Jumping_Block_Scene = preload("res://jumping_block.tscn")
 

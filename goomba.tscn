@@ -61,6 +61,9 @@ _data = {
 &"walk": SubResource("Animation_yj1s3")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yf5fn"]
+size = Vector2(16, 16)
+
 [node name="goomba" type="CharacterBody2D" unique_id=447780961]
 collision_layer = 4
 collision_mask = 7
@@ -75,3 +78,10 @@ hframes = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D" unique_id=1762361855]
 libraries/ = SubResource("AnimationLibrary_508bv")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=263775536]
+
+[node name="DamageArea" type="CollisionShape2D" parent="Area2D" unique_id=65693592]
+shape = SubResource("RectangleShape2D_yf5fn")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

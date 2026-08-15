@@ -1,10 +1,28 @@
 [gd_scene format=3 uid="uid://bi6i6mhosu3m5"]
 
 [ext_resource type="Script" uid="uid://comivuhi527m6" path="res://mario.gd" id="1_w74su"]
+[ext_resource type="AudioStream" uid="uid://ivfafferxsk2" path="res://sounds/mario_died.wav" id="2_4ckko"]
 [ext_resource type="Texture2D" uid="uid://djufj8psj7kds" path="res://textures/player/mario tileset.png" id="2_wrvex"]
+[ext_resource type="AudioStream" uid="uid://d0jhn4vfi0fi3" path="res://sounds/jump-small.wav" id="3_4gsdp"]
+
+[sub_resource type="Animation" id="Animation_cdawk"]
+resource_name = "dead"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_wrvex"]
-length = 0.001
+length = 3.0000000000000004
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -15,35 +33,35 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0]
+"values": [6]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:frame_coords")
+tracks/1/path = NodePath("Sprite2D:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [Vector2i(0, 0)]
+"times": PackedFloat32Array(0, 0.3, 0.7, 2),
+"transitions": PackedFloat32Array(1, 0.5, 2, 0.5),
+"update": 0,
+"values": [-2.0, -2.0, -50.0, 400.0]
 }
-
-[sub_resource type="Animation" id="Animation_cdawk"]
-resource_name = "dead"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.13333334),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [Vector2i(2, 1), Vector2i(0, 0)]
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("2_4ckko")
+}],
+"times": PackedFloat32Array(0)
 }
+tracks/2/use_blend = true
 
 [sub_resource type="Animation" id="Animation_4ckko"]
 resource_name = "idle"
@@ -108,8 +126,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4gsdp"]
 _data = {
-&"RESET": SubResource("Animation_wrvex"),
-&"dead": SubResource("Animation_cdawk"),
+&"RESET": SubResource("Animation_cdawk"),
+&"dead": SubResource("Animation_wrvex"),
 &"idle": SubResource("Animation_4ckko"),
 &"jump": SubResource("Animation_752v2"),
 &"run": SubResource("Animation_4gsdp"),
@@ -119,7 +137,8 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
 size = Vector2(12, 16)
 
-[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1144907134]
+[node name="Mario" type="CharacterBody2D" unique_id=1144907134]
+z_index = 10
 collision_layer = 2
 collision_mask = 29
 script = ExtResource("1_w74su")
@@ -149,3 +168,8 @@ target_position = Vector2(0, -2)
 [node name="ray_right" type="RayCast2D" parent="block_detector" unique_id=221768928]
 position = Vector2(3, -7)
 target_position = Vector2(0, -2)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1901965850]
+
+[node name="JumpSound" type="AudioStreamPlayer" parent="." unique_id=1618629751]
+stream = ExtResource("3_4gsdp")

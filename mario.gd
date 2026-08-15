@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 const SPEED = 100.0
 const JUMP_VELOCITY = -175.0
+const FALL_VELOCITY = 200.0
 const ACCELERATION = 3.0
 const start_jump_timer = 16
 var jump_timer = start_jump_timer
@@ -19,8 +20,12 @@ var player_state = "small"
 @onready var ray_left = $block_detector/ray_left
 @onready var ray_center = $block_detector/ray_center
 @onready var ray_right = $block_detector/ray_right
+@onready var jump_sound = $JumpSound
 
 func _physics_process(delta: float) -> void:
+	if player_state == "dead":
+		return
+	
 	if is_on_floor():
 		is_falling = false
 		has_hit_ceiling = false # Сбрасываем флаг на земле
@@ -41,9 +46,12 @@ func _physics_process(delta: float) -> void:
 				is_falling = true
 		else:
 			velocity += get_gravity() * delta
+			if velocity.y > FALL_VELOCITY:
+				velocity.y = FALL_VELOCITY
 
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
+		jump_sound.play()
 
 	var direction := Input.get_axis("ui_left", "ui_right")
 	if direction:
@@ -52,7 +60,24 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, ACCELERATION/1.5)
 
 	move_and_slide()
+	
 	update_animation(direction)
+	
+
+func death_sequence():
+	player_state = "dead"
+	
+	collision_layer = 0
+	collision_mask = 0
+	
+	if level:
+		level.bg_music.stop()
+		
+	anim_player.play("dead")
+	await anim_player.animation_finished
+	
+	get_tree().quit()
+	
 	
 func update_animation(dir):
 	if is_on_floor():

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://x5eme01e54il"]
 
 [ext_resource type="Script" uid="uid://bktb070i86e22" path="res://jumping_block.gd" id="1_1ur6t"]
-[ext_resource type="Texture2D" uid="uid://b4ejiwg6o5nv8" path="res://textures/tilemaps/images.png" id="2_snc1k"]
+[ext_resource type="AudioStream" uid="uid://cx5sjcb833fdh" path="res://sounds/bump.wav" id="3_t1y34"]
 
 [sub_resource type="Animation" id="Animation_snc1k"]
 length = 0.001
@@ -33,6 +33,21 @@ tracks/0/keys = {
 "update": 0,
 "values": [0.0, -4.0, -6.0, -4.0, 0.0]
 }
+tracks/1/type = "audio"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AudioStreamPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0185,
+"stream": ExtResource("3_t1y34")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/1/use_blend = true
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tcvg1"]
 _data = {
@@ -44,7 +59,6 @@ _data = {
 script = ExtResource("1_1ur6t")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=819759635]
-texture = ExtResource("2_snc1k")
 region_enabled = true
 region_rect = Rect2(0, 0, 16, 16)
 
@@ -52,3 +66,5 @@ region_rect = Rect2(0, 0, 16, 16)
 root_node = NodePath("../..")
 libraries/ = SubResource("AnimationLibrary_tcvg1")
 autoplay = &"bump"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1869582550]

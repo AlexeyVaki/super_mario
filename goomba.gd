@@ -19,3 +19,7 @@ func update_animation(status):
 		anim_pleer.play("walk")
 	elif status == "dead":
 		anim_pleer.play("dead")
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	pass # Replace with function body.
